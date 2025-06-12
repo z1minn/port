@@ -4,7 +4,7 @@ body, html {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif; /* 'Noto Sans KR'로 변경 */
     color: white;
     overflow: hidden;
 }
@@ -28,35 +28,58 @@ body, html {
 }
 
 /* 헤더 */
+/* Header */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 40px;
     position: fixed;
-    width: calc(100% - 80px);
     top: 0;
     left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    background-color: black; /* 헤더 전체 배경은 검은색 */
+    box-sizing: border-box;
+    padding: 10px 40px; /* 내부 여백 */
+}
+
+/* Yerim.e 로고 스타일 */
+header .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 900; /* 요청하신 대로 가장 굵게 */
+}
+
+/* 우측 흰색 패널 스타일 */
+.header-right-panel {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* ★★★ 내부 아이템을 오른쪽으로 정렬 */
+    background-color: white;
+    
+    /* ★★★ 이 width 값을 조절해 박스 너비 변경 */
+    width: 1500px; 
+    
+    /* 좌우 패딩만 남겨서 내부 여백 확보 */
+    padding: 1px 25px; 
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+}
+
+/* 시간 표시 스타일 */
+.header-right-panel .location-time {
+    color: black;
+    font-weight: 700;
+    margin-right: 50px; /* 메뉴와의 간격 */
     font-size: 14px;
 }
 
-header .logo a {
-    font-weight: bold;
-    font-size: 22px;
+/* 메뉴(Work, Contact) 스타일 */
+.header-right-panel nav a {
+    color: black;
     text-decoration: none;
-    color: white;
-}
-
-header .location-time {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-header nav a {
-    color: white;
-    text-decoration: none;
+    font-weight: 700;
     margin-left: 30px;
+    font-size: 14px;
 }
 
 /* 메인 콘텐츠 */
@@ -71,8 +94,17 @@ main {
 
 .main-title h1 {
     font-size: 48px;
-    font-weight: 300;
+    font-weight: 900; /* 폰트 굵기를 가장 굵게 (Black) */
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* h1 안의 span 태그에만 특별한 스타일 적용 */
+.main-title h1 span {
+    background: linear-gradient(to right, #ffffff, #a0e8af); /* 흰색에서 연한 녹색으로 변하는 그라데이션 */
+    -webkit-background-clip: text; /* 배경을 텍스트 모양으로 자르기 (크롬, 사파리) */
+    background-clip: text;         /* 배경을 텍스트 모양으로 자르기 */
+    color: transparent;            /* 원래 텍스트 색상을 투명하게 */
+    opacity: 0.8; /* 은은한 효과를 위해 살짝 투명도 조절 */
 }
 
 .featured-link {
@@ -114,4 +146,27 @@ footer {
     left: 50%;
     transform: translateX(-50%);
     font-weight: 300;
+}
+/* Custom Cursor Effect */
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    
+    pointer-events: none;
+    
+    /* 색상 반전 효과 */
+    mix-blend-mode: difference;
+    
+    /* 부드러운 움직임을 위한 설정 */
+    transition: transform 0.1s linear;
+    
+    /* 다른 모든 요소들보다 위에 있도록 설정 */
+    z-index: 9999;
+
+    /* 화면에서 벗어났을 때 보이지 않도록 함 */
+    top: 0;
+    left: 0;
 }
