@@ -9,20 +9,42 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100vh; /* 화면 높이를 100%로 고정 */
-    overflow: hidden; /* body의 스크롤 기능은 완전히 제거 */
+    height: 100vh;
+    overflow: hidden;
     background-color: black;
+}
+
+/* ==================== 배경 영상 컨테이너 ==================== */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    transition: filter 0.5s ease;
+}
+
+body.invert-background .background-container {
+    filter: invert(1);
+}
+
+.background-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* ==================== 스크롤 컨테이너 ==================== */
 .scroll-container {
     height: 100%;
     width: 100%;
-    overflow-y: scroll; /* 이 컨테이너만 스크롤되도록 설정 */
+    overflow-y: scroll;
     scroll-snap-type: y mandatory;
 }
 
-/* ==================== 헤더 (스크롤과 무관하게 고정) ==================== */
+/* ==================== 헤더 ==================== */
 header {
     position: fixed;
     top: 0;
@@ -35,37 +57,58 @@ header {
     padding: 10px 40px;
     z-index: 100;
 }
-
+header .logo a,
+.header-right-panel,
+.header-right-panel .location-time,
+.header-right-panel nav a {
+    transition: color 0.5s ease, background-color 0.5s ease;
+}
+body.invert-background header .logo a {
+    color: black;
+}
+body.invert-background .header-right-panel {
+    background-color: black;
+}
+body.invert-background .header-right-panel .location-time,
+body.invert-background .header-right-panel nav a {
+    color: white;
+}
 header .logo a {
     color: white;
     text-decoration: none;
     font-size: 24px;
     font-weight: 900;
 }
-
 .header-right-panel {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     background-color: white;
-    width: 450px;
+    width: 550px;
     padding: 1px 25px;
     box-sizing: border-box;
 }
-
 .header-right-panel .location-time {
     color: black;
     font-weight: 700;
-    margin-right: 50px;
+    margin-right: auto;
     font-size: 14px;
+    white-space: nowrap;
 }
-
+.header-right-panel nav {
+    white-space: nowrap;
+}
 .header-right-panel nav a {
     color: black;
     text-decoration: none;
     font-weight: 700;
-    margin-left: 30px;
+    margin-left: 25px;
     font-size: 14px;
+}
+
+/* ==================== 스냅 대상 공통 ==================== */
+.hero, .about-section, .work-section {
+    scroll-snap-align: start;
 }
 
 /* ==================== 첫 화면 (Hero) ==================== */
@@ -74,25 +117,7 @@ header .logo a {
     position: relative;
     display: flex;
     flex-direction: column;
-    scroll-snap-align: start; /* 스냅 대상 */
 }
-
-.background-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-}
-
-.background-container video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .hero main {
     flex-grow: 1;
     display: flex;
@@ -100,13 +125,11 @@ header .logo a {
     align-items: center;
     position: relative;
 }
-
 .main-title h1 {
     font-size: 48px;
     font-weight: 900;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
-
 .main-title h1 span {
     background: linear-gradient(to right, #ffffff, #a0e8af);
     -webkit-background-clip: text;
@@ -114,7 +137,6 @@ header .logo a {
     color: transparent;
     opacity: 0.8;
 }
-
 .featured-link {
     position: absolute;
     right: 40px;
@@ -122,12 +144,10 @@ header .logo a {
     transform: translateY(50%);
     writing-mode: vertical-rl;
 }
-
 .featured-link a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
 }
-
 .hero footer {
     display: flex;
     justify-content: space-between;
@@ -135,19 +155,90 @@ header .logo a {
     padding: 25px 40px;
     box-sizing: border-box;
 }
-
 .bottom-logo p, .scroll-indicator a {
     color: white;
     text-decoration: none;
 }
-
 .scroll-indicator {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
-/* ==================== 두 번째 (Work) ==================== */
+/* ==================== ABOUT 섹션 ==================== */
+.about-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+    perspective: 1000px;
+}
+.about-box {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 180px;
+    border-radius: 0;
+    max-width: 2000px;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.about-section.visible .about-box {
+    opacity: 1;
+    transform: translateY(0);
+}
+.photo-placeholder {
+    flex-shrink: 0;
+}
+.photo-placeholder::after {
+    content: '';
+}
+.photo-placeholder img {
+    max-width: 300px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+}
+.about-text h2 {
+    font-size: 48px;
+    font-weight: 900;
+    margin: 0 0 15px 0;
+    
+    /* ▼▼▼ 새로 추가된 밑줄 스타일 ▼▼▼ */
+    border-bottom: 2px solid white;
+    padding-bottom: 3px; /* 밑줄과 글자 사이 간격 */
+    display: inline-block; /* 글자 너비만큼만 밑줄이 생기도록 */
+}
+.about-text p {
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 300;
+    margin: 0;
+    padding-top: 15px; /* 이름과의 간격 */
+}
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+.skills-container span {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/* ==================== DESIGN 섹션 ==================== */
 .work-section {
     min-height: 100vh;
     padding: 100px 40px;
@@ -156,9 +247,10 @@ header .logo a {
     flex-direction: column;
     justify-content: center;
     gap: 15px;
-    scroll-snap-align: start; /* 스냅 대상 */
+    background-color: black;
+    position: relative;
+    z-index: 2;
 }
-
 .work-line {
     display: flex;
     align-items: center;
@@ -192,8 +284,7 @@ header .logo a {
     flex-shrink: 0;
 }
 
-
-/* ==================== 커서 (스크롤과 무관하게 고정) ==================== */
+/* ==================== 커서 ==================== */
 .custom-cursor {
     position: fixed;
     width: 20px;

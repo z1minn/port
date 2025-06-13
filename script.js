@@ -1,66 +1,76 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // ===============================================
+    // 상단 시간 업데이트 기능
+    // ===============================================
     function updateTime() {
         const timeElement = document.getElementById('time');
         if (timeElement) {
             const now = new Date();
-            // 한국 시간(KST)은 UTC+9
             const kstOffset = 9 * 60 * 60 * 1000;
             const kstTime = new Date(now.getTime() + kstOffset);
-
-            // 한국 시간으로 변환
             const utcHours = kstTime.getUTCHours();
             const utcMinutes = kstTime.getUTCMinutes();
             
             let hours = utcHours;
             let ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12;
-            hours = hours ? hours : 12; // 0시는 12시로 표시
+            hours = hours ? hours : 12;
             
             const minutes = utcMinutes < 10 ? '0' + utcMinutes : utcMinutes;
-            
             const timeString = `${hours}:${minutes} ${ampm}`;
             timeElement.textContent = timeString;
         }
     }
-
-    // 1초마다 시간을 업데이트
     setInterval(updateTime, 1000);
-    // 페이지 로드 시 즉시 시간을 표시
     updateTime();
-});
-// ... (기존의 시간 업데이트 코드 등은 그대로 둡니다) ...
 
-
-// 이 아래부터 새로 추가
-const cursor = document.querySelector('.custom-cursor');
-
-window.addEventListener('mousemove', e => {
-    // 원의 중심이 마우스 포인터의 좌측 상단에 오도록 좌표를 보정
-    const offsetX = -15; // 왼쪽으로 15px
-    const offsetY = -15; // 위로 15px
-
-    const newX = e.clientX + offsetX;
-    const newY = e.clientY + offsetY;
-
-    cursor.style.transform = `translate(${newX}px, ${newY}px)`;
-});
-// ... (기존의 커서 이동 코드 아래에 추가) ...
-
-// ===============================================
-// 헤더 높이 자동 계산으로 스크롤 스냅 위치 보정
-// ===============================================
-function setScrollPadding() {
-    const header = document.querySelector('header');
-    if (header) {
-        // 헤더의 실제 높이를 측정합니다.
-        const headerHeight = header.offsetHeight;
-        
-        // html 태그의 스타일에 직접 scroll-padding-top 값을 설정합니다.
-        document.documentElement.style.scrollPaddingTop = `${headerHeight}px`;
+    // ===============================================
+    // 커서 이동 효과
+    // ===============================================
+    const cursor = document.querySelector('.custom-cursor');
+    if (cursor) {
+        window.addEventListener('mousemove', e => {
+            const offsetX = -15;
+            const offsetY = -15;
+            const newX = e.clientX + offsetX;
+            const newY = e.clientY + offsetY;
+            cursor.style.transform = `translate(${newX}px, ${newY}px)`;
+        });
     }
-}
 
-// 페이지가 처음 로드될 때 실행
-document.addEventListener('DOMContentLoaded', setScrollPadding);
-// 브라우저 창 크기가 변경될 때마다 다시 실행
-window.addEventListener('resize', setScrollPadding);
+    // ===============================================
+    // 헤더 높이 자동 계산으로 스크롤 스냅 위치 보정
+    // ===============================================
+    function setScrollPadding() {
+        const header = document.querySelector('header');
+        if (header) {
+            const headerHeight = header.offsetHeight;
+            document.documentElement.style.scrollPaddingTop = `${headerHeight}px`;
+        }
+    }
+    setScrollPadding();
+    window.addEventListener('resize', setScrollPadding);
+
+    // ===============================================
+    // ABOUT 섹션 스크롤 시 효과 (배경 반전, 애니메이션)
+    // ===============================================
+    const aboutSection = document.querySelector('#about');
+    if (aboutSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.body.classList.add('invert-background');
+                    aboutSection.classList.add('visible');
+                } else {
+                    document.body.classList.remove('invert-background');
+                    aboutSection.classList.remove('visible');
+                }
+            });
+        }, {
+            root: document.querySelector('.scroll-container'),
+            threshold: 0.5
+        });
+        observer.observe(aboutSection);
+    }
+});
