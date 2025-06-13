@@ -1,79 +1,65 @@
-/* 기본 설정 */
-body, html {
+/* ==================== 기본 설정 ==================== */
+html {
+    scroll-behavior: smooth;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: white;
+}
+
+body {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
-    font-family: 'Noto Sans KR', sans-serif; /* 'Noto Sans KR'로 변경 */
-    color: white;
-    overflow: hidden;
+    height: 100vh; /* 화면 높이를 100%로 고정 */
+    overflow: hidden; /* body의 스크롤 기능은 완전히 제거 */
+    background-color: black;
 }
 
-/* ★★★ 배경 영상 컨테이너 (가장 중요) ★★★ */
-.background-container {
-    position: fixed; /* 화면에 고정 */
-    top: 0;
-    left: 0;
+/* ==================== 스크롤 컨테이너 ==================== */
+.scroll-container {
+    height: 100%;
     width: 100%;
-    height: 100%;
-    z-index: -1; /* 다른 모든 콘텐츠보다 뒤로 보내기 */
-    overflow: hidden;
+    overflow-y: scroll; /* 이 컨테이너만 스크롤되도록 설정 */
+    scroll-snap-type: y mandatory;
 }
 
-/* ★★★ 비디오 스타일 (가장 중요) ★★★ */
-.background-container video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 비율 유지하면서 화면 꽉 채우기 */
-}
-
-/* 헤더 */
-/* Header */
+/* ==================== 헤더 (스크롤과 무관하게 고정) ==================== */
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     display: flex;
-    justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    background-color: black; /* 헤더 전체 배경은 검은색 */
+    justify-content: space-between;
+    align-items: center;
     box-sizing: border-box;
-    padding: 10px 40px; /* 내부 여백 */
+    padding: 10px 40px;
+    z-index: 100;
 }
 
-/* Yerim.e 로고 스타일 */
 header .logo a {
     color: white;
     text-decoration: none;
     font-size: 24px;
-    font-weight: 900; /* 요청하신 대로 가장 굵게 */
+    font-weight: 900;
 }
 
-/* 우측 흰색 패널 스타일 */
 .header-right-panel {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* ★★★ 내부 아이템을 오른쪽으로 정렬 */
+    justify-content: flex-end;
     background-color: white;
-    
-    /* ★★★ 이 width 값을 조절해 박스 너비 변경 */
-    width: 1500px; 
-    
-    /* 좌우 패딩만 남겨서 내부 여백 확보 */
-    padding: 1px 25px; 
-    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+    width: 450px;
+    padding: 1px 25px;
+    box-sizing: border-box;
 }
 
-/* 시간 표시 스타일 */
 .header-right-panel .location-time {
     color: black;
     font-weight: 700;
-    margin-right: 50px; /* 메뉴와의 간격 */
+    margin-right: 50px;
     font-size: 14px;
 }
 
-/* 메뉴(Work, Contact) 스타일 */
 .header-right-panel nav a {
     color: black;
     text-decoration: none;
@@ -82,29 +68,51 @@ header .logo a {
     font-size: 14px;
 }
 
-/* 메인 콘텐츠 */
-main {
+/* ==================== 첫 화면 (Hero) ==================== */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start; /* 스냅 대상 */
+}
+
+.background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.background-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero main {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    text-align: center;
     position: relative;
 }
 
 .main-title h1 {
     font-size: 48px;
-    font-weight: 900; /* 폰트 굵기를 가장 굵게 (Black) */
+    font-weight: 900;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* h1 안의 span 태그에만 특별한 스타일 적용 */
 .main-title h1 span {
-    background: linear-gradient(to right, #ffffff, #a0e8af); /* 흰색에서 연한 녹색으로 변하는 그라데이션 */
-    -webkit-background-clip: text; /* 배경을 텍스트 모양으로 자르기 (크롬, 사파리) */
-    background-clip: text;         /* 배경을 텍스트 모양으로 자르기 */
-    color: transparent;            /* 원래 텍스트 색상을 투명하게 */
-    opacity: 0.8; /* 은은한 효과를 위해 살짝 투명도 조절 */
+    background: linear-gradient(to right, #ffffff, #a0e8af);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0.8;
 }
 
 .featured-link {
@@ -112,61 +120,90 @@ main {
     right: 40px;
     bottom: 50%;
     transform: translateY(50%);
-    font-size: 14px;
     writing-mode: vertical-rl;
-    text-orientation: mixed;
 }
 
 .featured-link a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    letter-spacing: 2px;
 }
 
-/* 푸터 */
-footer {
+.hero footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: calc(100% - 80px);
     padding: 25px 40px;
-    font-size: 14px;
+    box-sizing: border-box;
 }
 
-.bottom-logo p {
-    font-size: 24px;
-    margin: 0;
+.bottom-logo p, .scroll-indicator a {
+    color: white;
+    text-decoration: none;
 }
 
 .scroll-indicator {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-weight: 300;
 }
-/* Custom Cursor Effect */
+
+/* ==================== 두 번째 (Work) ==================== */
+.work-section {
+    min-height: 100vh;
+    padding: 100px 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    scroll-snap-align: start; /* 스냅 대상 */
+}
+
+.work-line {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.work-line.justify-center { justify-content: center; }
+.work-line.justify-end { justify-content: flex-end; }
+.work-line .text-large {
+    font-size: 80px;
+    font-weight: 700;
+    margin: 0 25px;
+    white-space: nowrap;
+}
+.work-line .text-symbols {
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0 25px;
+    white-space: nowrap;
+}
+.work-line .img-box {
+    height: 80px;
+    flex-shrink: 0;
+    width: 350px;
+    background-size: cover;
+    background-position: center;
+}
+.work-line .line-break {
+    width: 100px;
+    height: 4px;
+    background-color: white;
+    flex-shrink: 0;
+}
+
+
+/* ==================== 커서 (스크롤과 무관하게 고정) ==================== */
 .custom-cursor {
     position: fixed;
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background-color: white;
-    
     pointer-events: none;
-    
-    /* 색상 반전 효과 */
     mix-blend-mode: difference;
-    
-    /* 부드러운 움직임을 위한 설정 */
     transition: transform 0.1s linear;
-    
-    /* 다른 모든 요소들보다 위에 있도록 설정 */
     z-index: 9999;
-
-    /* 화면에서 벗어났을 때 보이지 않도록 함 */
     top: 0;
     left: 0;
 }

@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // ... (기존의 시간 업데이트 코드 등은 그대로 둡니다) ...
 
+
 // 이 아래부터 새로 추가
 const cursor = document.querySelector('.custom-cursor');
 
@@ -43,3 +44,23 @@ window.addEventListener('mousemove', e => {
 
     cursor.style.transform = `translate(${newX}px, ${newY}px)`;
 });
+// ... (기존의 커서 이동 코드 아래에 추가) ...
+
+// ===============================================
+// 헤더 높이 자동 계산으로 스크롤 스냅 위치 보정
+// ===============================================
+function setScrollPadding() {
+    const header = document.querySelector('header');
+    if (header) {
+        // 헤더의 실제 높이를 측정합니다.
+        const headerHeight = header.offsetHeight;
+        
+        // html 태그의 스타일에 직접 scroll-padding-top 값을 설정합니다.
+        document.documentElement.style.scrollPaddingTop = `${headerHeight}px`;
+    }
+}
+
+// 페이지가 처음 로드될 때 실행
+document.addEventListener('DOMContentLoaded', setScrollPadding);
+// 브라우저 창 크기가 변경될 때마다 다시 실행
+window.addEventListener('resize', setScrollPadding);

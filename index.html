@@ -10,52 +10,77 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-container">
-        <video autoplay loop muted playsinline>
-            <source src="space-bg.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-
     <header>
-    <div class="logo">
-        <a href="#">Yerim.e</a>
-    </div>
-
-    <div class="header-right-panel">
-        <div class="location-time">
-            <span id="location">Seoul, Korea</span> <span id="time"></span>
+        <div class="logo">
+            <a href="#">Yerim.e</a>
         </div>
-        <nav>
-            <a href="#work">Work</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </div>
+        <div class="header-right-panel">
+            <div class="location-time">
+                <span id="location">Seoul, Korea</span> <span id="time"></span>
+            </div>
+            <nav>
+                <a href="#work">Work</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
     </header>
-
-
-    <main>
-    <div class="main-title">
-        <h1>KIM JI MIN, <span>DESIGNER</span></h1>
-    </div>
-    <div class="featured-link">
-        <a href="#">Featured/Reel '24</a>
-    </div>
-    </main>
-
-    <footer>
-        <div class="bottom-logo">
-            <p>{✳}</p>
-        </div>
-        <div class="scroll-indicator">
-            <p>Scroll for more ↓</p>
-        </div>
-    </footer>
-    
     <div class="custom-cursor"></div>
 
-    
+    <div class="scroll-container">
+        <section class="hero">
+            <div class="background-container">
+                <video autoplay loop muted playsinline>
+                    <source src="space-bg.mp4" type="video/mp4">
+                </video>
+            </div>
+            <main>
+                <div class="main-title">
+                    <h1>KIM JI MIN, <span>DESIGNER</span></h1>
+                </div>
+                <div class="featured-link">
+                    <a href="#">Featured/Reel '24</a>
+                </div>
+            </main>
+            <footer>
+                <div class="bottom-logo">
+                    <p>{✳}</p>
+                </div>
+                <div class="scroll-indicator">
+                    <a href="#work">Scroll for more ↓</a>
+                </div>
+            </footer>
+        </section>
+
+        <section id="work" class="work-section">
+            <div class="work-line">
+                <p class="text-large">I > create</p>
+                <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1554435493-93422e822011?w=500&auto=format&fit=crop');"></div>
+                <p class="text-symbols">● ✴</p>
+            </div>
+            <div class="work-line justify-center">
+                <div class="line-break"></div>
+                <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=500&auto=format&fit=crop');"></div>
+                <p class="text-large">memorable</p>
+            </div>
+            <div class="work-line justify-end">
+                <p class="text-large">websites</p>
+                <p class="text-symbols">↔ ✴ ∗ ∗ ∗</p>
+                <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbb563?w=500&auto=format&fit=crop');"></div>
+            </div>
+            <div class="work-line justify-center">
+                <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?w=500&auto=format&fit=crop');"></div>
+                <p class="text-large">◆ and —</p>
+                <p class="text-symbols">● ✴</p>
+            </div>
+            <div class="work-line">
+                <p class="text-symbols" style="margin-left: 10%;">{ ● ♦ ●</p>
+                <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=500&auto=format&fit=crop');"></div>
+                <p class="text-large">better UX.</p>
+                <p class="text-symbols">{✳}</p>
+            </div>
+        </section>
+    </div>
+
     <script src="script.js"></script>
-    
 </body>
 </html>
