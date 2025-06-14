@@ -73,4 +73,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         observer.observe(aboutSection);
     }
+    
+    // ===============================================
+    // DESIGN 섹션 비디오 클릭 시 라이트박스 기능
+    // ===============================================
+    const videoBoxes = document.querySelectorAll('.video-box');
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxVideo = lightbox.querySelector('video');
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+
+    if (videoBoxes.length > 0 && lightbox && lightboxVideo && lightboxClose) {
+        
+        videoBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                const video = box.querySelector('video');
+                if (video) {
+                    lightboxVideo.src = video.src;
+                    lightbox.classList.add('show');
+                }
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            lightboxVideo.pause();
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    }
+
 });

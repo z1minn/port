@@ -185,7 +185,6 @@ header .logo a {
     border-radius: 0;
     max-width: 2000px;
     color: white;
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     opacity: 0;
     transform: translateY(50px);
@@ -207,22 +206,60 @@ header .logo a {
     width: auto;
     height: auto;
 }
+.about-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 .about-text h2 {
     font-size: 48px;
     font-weight: 900;
-    margin: 0 0 15px 0;
-    
-    /* ▼▼▼ 새로 추가된 밑줄 스타일 ▼▼▼ */
-    border-bottom: 2px solid white;
-    padding-bottom: 3px; /* 밑줄과 글자 사이 간격 */
-    display: inline-block; /* 글자 너비만큼만 밑줄이 생기도록 */
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+    height: 1.5em; 
+    overflow: hidden; 
 }
+.about-text h2 .name-ghost {
+    visibility: hidden;
+}
+.about-text h2 .en-name,
+.about-text h2 .ko-name {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.about-text h2 .ko-name {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.about-text h2:hover .en-name {
+    transform: translateY(100%);
+    opacity: 0;
+}
+.about-text h2:hover .ko-name {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 .about-text p {
     font-size: 16px;
     line-height: 1.7;
     font-weight: 300;
     margin: 0;
-    padding-top: 15px; /* 이름과의 간격 */
+    padding-top: 15px;
+    display: block;
+}
+.about-text p::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: white;
+    margin-left: 8px;
+    animation: blink 1s step-end infinite;
 }
 .skills-container {
     display: flex;
@@ -236,52 +273,149 @@ header .logo a {
     border-radius: 20px;
     font-size: 14px;
     font-weight: 300;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+.skills-container span:hover {
+    background-color: white;
+    color: black;
+}
+.title-underline {
+    height: 5px;
+    background-color: white;
+    margin-top: 10px;
+    width: 80%;
 }
 
 /* ==================== DESIGN 섹션 ==================== */
 .work-section {
-    min-height: 100vh;
-    padding: 100px 40px;
+    height: 100vh;
+    padding: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 15px;
     background-color: black;
     position: relative;
     z-index: 2;
+    overflow: hidden;
 }
+
+.work-text-group {
+    display: flex;
+    align-items: baseline;
+    gap: 2vw;
+}
+
 .work-line {
+    position: relative;
+    width: 100%;
+    height: 16vh;
     display: flex;
     align-items: center;
-    width: 100%;
 }
-.work-line.justify-center { justify-content: center; }
-.work-line.justify-end { justify-content: flex-end; }
+.work-line > * {
+    position: absolute; 
+}
 .work-line .text-large {
-    font-size: 80px;
-    font-weight: 700;
-    margin: 0 25px;
+    font-size: 14vh;
+    font-weight: 900;
+    line-height: 1;
     white-space: nowrap;
 }
 .work-line .text-symbols {
-    font-size: 40px;
+    font-size: 7vh;
     font-weight: 700;
-    margin: 0 25px;
     white-space: nowrap;
 }
-.work-line .img-box {
-    height: 80px;
-    flex-shrink: 0;
-    width: 350px;
-    background-size: cover;
-    background-position: center;
+.work-line .video-box {
+    height: 13vh;
 }
-.work-line .line-break {
-    width: 100px;
-    height: 4px;
+.video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- 각 라인별 요소 위치 미세 조정 --- */
+.work-line:nth-child(1) .text-large { left: 5%; }
+
+/* 'DESIGN' 글자 옆 깜빡이는 커서 효과 추가 */
+.work-section .work-line:nth-child(1) .text-large::after {
+    content: '';
+    display: inline-block;
+    width: 0.8vh;
+    height: 12vh;
     background-color: white;
-    flex-shrink: 0;
+    margin-left: 2vw;
+    animation: blink 1s step-end infinite;
+}
+
+.work-line:nth-child(2) .video-box { left: 5%; width: 50%; }
+.work-line:nth-child(2) .text-large { left: 47%; }
+
+.work-line:nth-child(3) .work-text-group {
+    right: 52%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+.work-line:nth-child(3) .video-box { 
+    right: 5%; 
+    width: 62%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.work-line:nth-child(4) .video-box { left: 15%; width: 50%; }
+.work-line:nth-child(4) .text-large { left: 48%; }
+
+.work-line:nth-child(5) .video-box { left: 22%; width: 55%; }
+.work-line:nth-child(5) .text-large { left: 65%; } 
+
+
+/* ==================== 라이트박스 및 애니메이션 스타일 ==================== */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.lightbox.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.lightbox-content {
+    width: 75%;
+    height: 75%;
+    position: relative;
+    transform: scale(0.5);
+    transition: transform 0.4s ease;
+}
+.lightbox.show .lightbox-content {
+    transform: scale(1);
+}
+.lightbox-content video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
 }
 
 /* ==================== 커서 ==================== */
@@ -297,4 +431,10 @@ header .logo a {
     z-index: 9999;
     top: 0;
     left: 0;
+}
+
+/* ==================== 깜빡이는 애니메이션 ==================== */
+@keyframes blink {
+    from, to { background-color: transparent }
+    50% { background-color: white; }
 }
