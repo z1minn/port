@@ -320,7 +320,21 @@ header .logo a {
     height: 16vh;
     display: flex;
     align-items: center;
+    /* 애니메이션을 위한 transition 추가 */
+    transition: opacity 3.0s cubic-bezier(0.2, 0.8, 0.2, 1), transform 3.0s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+/* 애니메이션 시작 상태 */
+.work-line.reveal-initial {
+    opacity: 0;
+    pointer-events: none;
+}
+.work-line.reveal-initial.from-left {
+    transform: translateX(-50px);
+}
+.work-line.reveal-initial.from-right {
+    transform: translateX(50px);
+}
+
 .work-line > * {
     position: absolute; 
 }
@@ -337,7 +351,7 @@ header .logo a {
 }
 .work-line .video-box {
     height: 13vh;
-    cursor: pointer; /* 클릭 가능함을 표시 */
+    cursor: pointer;
 }
 .video-box video {
     width: 100%;
@@ -448,7 +462,7 @@ header .logo a {
     line-height: 1.7;
     margin: 0;
     color: rgba(255, 255, 255, 0.8);
-    white-space: pre-line; 
+    white-space: pre-line;
 }
 .lightbox-close {
     position: absolute;

@@ -75,6 +75,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ===============================================
+    // DESIGN 섹션 - 등장 애니메이션
+    // ===============================================
+    const designSection = document.querySelector('#design');
+    const workLines = document.querySelectorAll('.work-line');
+
+    if (designSection && workLines.length > 0) {
+        // 초기에 모든 라인을 숨김 상태로 설정
+        workLines.forEach((line, index) => {
+            line.classList.add('reveal-initial');
+            if ((index + 1) % 2 === 1) { // 홀수 번째
+                line.classList.add('from-left');
+            } else { // 짝수 번째
+                line.classList.add('from-right');
+            }
+        });
+
+        const designObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    workLines.forEach((line, index) => {
+                        setTimeout(() => {
+                            line.classList.remove('reveal-initial');
+                        }, index * 600); // 0.15초 간격으로 순차적 실행
+                    });
+                } else {
+                    // 화면 밖으로 나가면 다시 초기 상태로
+                    workLines.forEach(line => {
+                        line.classList.add('reveal-initial');
+                    });
+                }
+            });
+        }, {
+            root: document.querySelector('.scroll-container'),
+            threshold: 0.2 // 섹션이 20% 보였을 때 실행
+        });
+        designObserver.observe(designSection);
+    }
+
+
+    // ===============================================
     // DESIGN 섹션 비디오 클릭 시 라이트박스 기능
     // ===============================================
     const videoBoxes = document.querySelectorAll('.video-box');
@@ -95,24 +135,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (video && lightboxTitle && lightboxBody) {
                     lightboxVideo.src = video.src;
                     lightboxTitle.textContent = title || '';
-                    lightboxBody.textContent = body || '';
-                    lightbox.classList.add('show');
+                    lightboxBody.innerHTML = (body || '').replace(/\n/g, '<br>'); // 줄바꿈 처리를 위해 innerHTML 사용
                 }
+                lightbox.classList.add('show');
             });
         });
 
         function closeLightbox() {
             lightbox.classList.remove('show');
             lightboxVideo.pause();
-            // 비디오 소스를 비워 다음 로딩을 빠르게 합니다.
             setTimeout(() => {
                 lightboxVideo.src = "";
-            }, 400); // transition 시간과 맞춤
+            }, 400);
         }
 
         lightboxClose.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', (e) => {
-            // 검은 배경 클릭 시 닫기 (내용물 제외)
             if (e.target === lightbox) {
                 closeLightbox();
             }
