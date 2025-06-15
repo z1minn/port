@@ -79,7 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===============================================
     const videoBoxes = document.querySelectorAll('.video-box');
     const lightbox = document.querySelector('.lightbox');
-    const lightboxVideo = lightbox.querySelector('video');
+    const lightboxVideo = lightbox.querySelector('.lightbox-video-wrapper video');
+    const lightboxTitle = lightbox.querySelector('.lightbox-title');
+    const lightboxBody = lightbox.querySelector('.lightbox-body');
     const lightboxClose = lightbox.querySelector('.lightbox-close');
 
     if (videoBoxes.length > 0 && lightbox && lightboxVideo && lightboxClose) {
@@ -87,8 +89,13 @@ document.addEventListener('DOMContentLoaded', function() {
         videoBoxes.forEach(box => {
             box.addEventListener('click', () => {
                 const video = box.querySelector('video');
-                if (video) {
+                const title = box.dataset.title;
+                const body = box.dataset.body;
+
+                if (video && lightboxTitle && lightboxBody) {
                     lightboxVideo.src = video.src;
+                    lightboxTitle.textContent = title || '';
+                    lightboxBody.textContent = body || '';
                     lightbox.classList.add('show');
                 }
             });
@@ -97,14 +104,140 @@ document.addEventListener('DOMContentLoaded', function() {
         function closeLightbox() {
             lightbox.classList.remove('show');
             lightboxVideo.pause();
+            // 비디오 소스를 비워 다음 로딩을 빠르게 합니다.
+            setTimeout(() => {
+                lightboxVideo.src = "";
+            }, 400); // transition 시간과 맞춤
         }
 
         lightboxClose.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', (e) => {
+            // 검은 배경 클릭 시 닫기 (내용물 제외)
             if (e.target === lightbox) {
                 closeLightbox();
             }
         });
     }
+
+    // ===============================================
+    // CONTACT 섹션 - 커서 확대 효과
+    // ===============================================
+    const contactSection = document.querySelector('.contact-section');
+    const customCursor = document.querySelector('.custom-cursor');
+
+    if (contactSection && customCursor) {
+        contactSection.addEventListener('mouseenter', () => {
+            customCursor.style.width = '90px';
+            customCursor.style.height = '90px';
+        });
+
+        contactSection.addEventListener('mouseleave', () => {
+            customCursor.style.width = '20px';
+            customCursor.style.height = '20px';
+        });
+    }
+
+    // ===============================================
+    // CONTACT 섹션 - 텍스트 등장 애니메이션
+    // ===============================================
+    const contactTitle = document.querySelector('.contact-section h2');
+    if (contactTitle) {
+        const text = contactTitle.textContent;
+        const chars = text.split('');
+        contactTitle.innerHTML = '';
+        
+        chars.forEach((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.style.transitionDelay = `${i * 50}ms`;
+            contactTitle.appendChild(span);
+        });
+
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    contactTitle.classList.add('letters-visible');
+                } else {
+                    contactTitle.classList.remove('letters-visible');
+                }
+            });
+        }, {
+            root: document.querySelector('.scroll-container'),
+            threshold: 0.2
+        });
+        
+        if (contactSection) {
+           contactObserver.observe(contactSection);
+        }
+    }
+
+    /* ===============================================
+     * CONTACT 섹션 - 파티클 효과 실행
+     * =============================================== */
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "repulse"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "repulse": {
+            "distance": 100,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          }
+        }
+      },
+      "retina_detect": true
+    });
 
 });

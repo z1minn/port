@@ -107,7 +107,7 @@ header .logo a {
 }
 
 /* ==================== 스냅 대상 공통 ==================== */
-.hero, .about-section, .work-section {
+.hero, .about-section, .work-section, .contact-section {
     scroll-snap-align: start;
 }
 
@@ -127,11 +127,18 @@ header .logo a {
 }
 .main-title h1 {
     font-size: 48px;
-    font-weight: 900;
+    font-weight: 10;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    font-family: 'Audiowide', sans-serif;
 }
-.main-title h1 span {
-    background: linear-gradient(to right, #ffffff, #a0e8af);
+.main-title h1 .jimin-text {
+    background: linear-gradient(to bottom, #CCCCCC, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.main-title h1 span:not(.jimin-text) {
+    background: linear-gradient(to bottom, #D8B5FF, #ffffff);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -330,6 +337,7 @@ header .logo a {
 }
 .work-line .video-box {
     height: 13vh;
+    cursor: pointer; /* 클릭 가능함을 표시 */
 }
 .video-box video {
     width: 100%;
@@ -340,7 +348,6 @@ header .logo a {
 /* --- 각 라인별 요소 위치 미세 조정 --- */
 .work-line:nth-child(1) .text-large { left: 5%; }
 
-/* 'DESIGN' 글자 옆 깜빡이는 커서 효과 추가 */
 .work-section .work-line:nth-child(1) .text-large::after {
     content: '';
     display: inline-block;
@@ -381,7 +388,7 @@ header .logo a {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -395,8 +402,11 @@ header .logo a {
     pointer-events: auto;
 }
 .lightbox-content {
-    width: 75%;
-    height: 75%;
+    display: flex;
+    gap: 30px;
+    width: 80%;
+    max-width: 1400px;
+    height: 70%;
     position: relative;
     transform: scale(0.5);
     transition: transform 0.4s ease;
@@ -404,10 +414,41 @@ header .logo a {
 .lightbox.show .lightbox-content {
     transform: scale(1);
 }
-.lightbox-content video {
-    width: 100%;
-    height: 100%;
+.lightbox-video-wrapper {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+}
+.lightbox-video-wrapper video {
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
+}
+.lightbox-description {
+    flex: 1;
+    background-color: #000;
+    color: white;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+.lightbox-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    word-break: break-all;
+}
+.lightbox-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    white-space: pre-line; 
 }
 .lightbox-close {
     position: absolute;
@@ -427,7 +468,7 @@ header .logo a {
     background-color: white;
     pointer-events: none;
     mix-blend-mode: difference;
-    transition: transform 0.1s linear;
+    transition: transform 0.1s linear, width 0.3s ease, height 0.3s ease;
     z-index: 9999;
     top: 0;
     left: 0;
@@ -437,4 +478,90 @@ header .logo a {
 @keyframes blink {
     from, to { background-color: transparent }
     50% { background-color: white; }
+}
+
+/* ==================== CONTACT 섹션 ==================== */
+.contact-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
+    padding: 40px;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+}
+
+.contact-section h2 {
+    font-size: 12vh;
+    font-weight: 200;
+    margin: 0 0 50px 0;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    position: relative; 
+    z-index: 1;
+}
+
+/* CONTACT 섹션 글자 등장 애니메이션 */
+.contact-section h2 span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 2.0s cubic-bezier(0.2, 0.8, 0.2, 1), transform 2.0s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.contact-section h2.letters-visible span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-links {
+    font-size: 18px;
+    font-weight: 100;
+    display: flex;
+    gap: 80px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-link {
+    display: inline-flex; 
+    flex-direction: column; 
+    align-items: center;  
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.contact-link:hover {
+    opacity: 0.7;
+}
+
+.contact-icon {
+    margin-bottom: 15px; 
+}
+
+.email-icon {
+    width: 55px;
+    height: 40px;
+}
+
+.github-icon {
+    width: 40px;
+    height: 40px;
+}
+
+/* --- CONTACT 섹션 파티클 배경 --- */
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
