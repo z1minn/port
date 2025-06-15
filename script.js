@@ -277,5 +277,33 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       "retina_detect": true
     });
+    
+    // ===============================================
+    // 음악 플레이어 기능
+    // ===============================================
+    const musicPlayerButton = document.getElementById('music-player-button');
+    const backgroundMusic = document.getElementById('background-music');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    if (musicPlayerButton && backgroundMusic && volumeSlider) {
+        // 초기 볼륨 설정
+        backgroundMusic.volume = volumeSlider.value;
+
+        // 재생/일시정지 버튼 클릭
+        musicPlayerButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                musicPlayerButton.classList.remove('paused');
+            } else {
+                backgroundMusic.pause();
+                musicPlayerButton.classList.add('paused');
+            }
+        });
+
+        // 볼륨 조절
+        volumeSlider.addEventListener('input', function() {
+            backgroundMusic.volume = this.value;
+        });
+    }
 
 });

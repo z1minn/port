@@ -321,10 +321,8 @@ header .logo a {
     height: 16vh;
     display: flex;
     align-items: center;
-    /* 애니메이션을 위한 transition 추가 */
     transition: opacity 3.0s cubic-bezier(0.2, 0.8, 0.2, 1), transform 3.0s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-/* 애니메이션 시작 상태 */
 .work-line.reveal-initial {
     opacity: 0;
     pointer-events: none;
@@ -521,7 +519,6 @@ header .logo a {
     z-index: 1;
 }
 
-/* CONTACT 섹션 글자 등장 애니메이션 */
 .contact-section h2 span {
   display: inline-block;
   opacity: 0;
@@ -579,4 +576,117 @@ header .logo a {
   top: 0;
   left: 0;
   z-index: 0;
+}
+
+/* ==================== 음악 플레이어 ==================== */
+#music-player {
+    position: fixed;
+    bottom: 30px;
+    right: 40px;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#music-player-button {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 재생 아이콘 (삼각형) */
+#music-player-button.paused::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent white;
+    transform: translate(-40%, -50%);
+    transition: border-color 0.3s ease;
+}
+
+/* 일시정지 아이콘 (두 막대) */
+#music-player-button:not(.paused)::before,
+#music-player-button:not(.paused)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 16px;
+    background-color: white;
+    transform: translateY(-50%);
+    transition: background-color 0.3s ease;
+}
+#music-player-button:not(.paused)::before { left: 16px; }
+#music-player-button:not(.paused)::after { left: 30px; }
+
+/* 볼륨 슬라이더 */
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+#music-player:hover #volume-slider {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 슬라이더 핸들(동그라미) 스타일 */
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#volume-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* --- 음악 플레이어 색상 반전 효과 --- */
+body.invert-background #music-player-button {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+body.invert-background #music-player-button.paused::before {
+    border-color: transparent transparent transparent black;
+}
+body.invert-background #music-player-button:not(.paused)::before,
+body.invert-background #music-player-button:not(.paused)::after {
+    background-color: black;
+}
+body.invert-background #volume-slider {
+    background: rgba(0, 0, 0, 0.3);
+}
+body.invert-background #volume-slider::-webkit-slider-thumb {
+    background: black;
+}
+body.invert-background #volume-slider::-moz-range-thumb {
+    background: black;
 }
